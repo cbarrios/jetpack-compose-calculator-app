@@ -1,6 +1,8 @@
 package com.lalosapps.calculator.ui
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import com.lalosapps.calculator.ui.theme.Orange
 @Composable
 fun Calculator(
     state: CalculatorState,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier,
     buttonSpacing: Dp = 8.dp,
     onAction: (CalculatorAction) -> Unit
@@ -36,7 +39,8 @@ fun Calculator(
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 20.dp),
+                    .padding(vertical = 20.dp)
+                    .horizontalScroll(scrollState),
                 fontWeight = FontWeight.Light,
                 fontSize = 72.sp,
                 color = Color.White,

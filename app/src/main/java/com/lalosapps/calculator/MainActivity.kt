@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,8 +23,18 @@ class MainActivity : ComponentActivity() {
             CalculatorTheme {
                 val viewModel = viewModel<CalculatorViewModel>()
                 val state = viewModel.state
+                val scrollState = rememberScrollState()
+                LaunchedEffect(state) {
+                    if (viewModel.isCalculation) {
+                        viewModel.onCalculationDone()
+                        scrollState.animateScrollTo(0)
+                    } else {
+                        scrollState.animateScrollTo(scrollState.maxValue)
+                    }
+                }
                 Calculator(
                     state = state,
+                    scrollState = scrollState,
                     onAction = viewModel::onAction,
                     modifier = Modifier
                         .fillMaxSize()

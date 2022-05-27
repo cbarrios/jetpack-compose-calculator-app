@@ -12,6 +12,9 @@ class CalculatorViewModel : ViewModel() {
     var state by mutableStateOf(CalculatorState())
         private set
 
+    var isCalculation by mutableStateOf(false)
+        private set
+
     fun onAction(action: CalculatorAction) {
         when (action) {
             is CalculatorAction.Clear -> clearState()
@@ -21,6 +24,10 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorAction.Number -> enterNumber(action.number)
             is CalculatorAction.Operation -> enterOperation(action.operation)
         }
+    }
+
+    fun onCalculationDone() {
+        isCalculation = false
     }
 
     private fun clearState() {
@@ -62,6 +69,7 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else return
             null -> return
         }
+        isCalculation = true
         state = state.copy(
             number1 = result.toString(),
             number2 = "",
