@@ -59,7 +59,7 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorOperation.Add -> number1 + number2
             is CalculatorOperation.Subtract -> number1 - number2
             is CalculatorOperation.Multiply -> number1 * number2
-            is CalculatorOperation.Divide -> number1 / number2
+            is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else return
             null -> return
         }
         state = state.copy(
