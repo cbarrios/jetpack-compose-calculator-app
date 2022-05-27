@@ -70,8 +70,11 @@ class CalculatorViewModel : ViewModel() {
             null -> return
         }
         isCalculation = true
+        val resultString = result.toString()
+        val isInteger =
+            resultString.isNotBlank() && resultString.length >= 3 && resultString[resultString.length - 2] == '.' && resultString[resultString.length - 1] == '0'
         state = state.copy(
-            number1 = result.toString(),
+            number1 = if (isInteger) resultString.dropLast(2) else resultString,
             number2 = "",
             operation = null
         )
@@ -79,7 +82,15 @@ class CalculatorViewModel : ViewModel() {
 
     private fun enterNumber(number: Int) {
         if (state.operation == null) {
+            if (state.number1.length == 1 && state.number1[0] == '0') {
+                state = state.copy(number1 = state.number1.dropLast(1) + number)
+                return
+            }
             state = state.copy(number1 = state.number1 + number)
+            return
+        }
+        if (state.number2.length == 1 && state.number2[0] == '0') {
+            state = state.copy(number2 = state.number2.dropLast(1) + number)
             return
         }
         state = state.copy(number2 = state.number2 + number)

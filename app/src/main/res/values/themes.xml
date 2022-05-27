@@ -2,6 +2,7 @@
 <resources>
 
     <style name="Theme.Calculator" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">@color/medium_gray</item>
+        <item name="android:navigationBarColor">@color/medium_gray</item>
     </style>
 </resources>
