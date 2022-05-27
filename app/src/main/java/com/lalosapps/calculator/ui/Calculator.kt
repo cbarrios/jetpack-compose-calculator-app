@@ -2,7 +2,6 @@ package com.lalosapps.calculator.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,14 +32,14 @@ fun Calculator(
             verticalArrangement = Arrangement.spacedBy(buttonSpacing)
         ) {
             Text(
-                text = state.number1 + (state.operation ?: "") + state.number2,
+                text = state.number1 + (state.operation?.symbol ?: "") + state.number2,
                 textAlign = TextAlign.End,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 32.dp),
+                    .padding(vertical = 20.dp),
                 fontWeight = FontWeight.Light,
-                fontSize = 80.sp,
-                color = MaterialTheme.colors.onBackground,
+                fontSize = 72.sp,
+                color = Color.White,
                 maxLines = 2
             )
             Row(
