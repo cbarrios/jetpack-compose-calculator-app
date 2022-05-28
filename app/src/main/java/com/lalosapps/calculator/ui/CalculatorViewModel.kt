@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.lalosapps.calculator.core.CalculatorAction
 import com.lalosapps.calculator.core.CalculatorOperation
+import java.math.BigDecimal
+import java.math.MathContext
 
 class CalculatorViewModel : ViewModel() {
 
@@ -59,22 +61,23 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun performCalculation() {
-        val number1 = state.number1.toDoubleOrNull()
-        val number2 = state.number2.toDoubleOrNull()
+        val number1 = state.number1.toBigDecimalOrNull()
+        val number2 = state.number2.toBigDecimalOrNull()
         if (number1 == null || number2 == null) return
         val result = when (state.operation) {
-            is CalculatorOperation.Add -> number1 + number2
-            is CalculatorOperation.Subtract -> number1 - number2
-            is CalculatorOperation.Multiply -> number1 * number2
-            is CalculatorOperation.Divide -> if (number2 != 0.0) number1 / number2 else return
+            is CalculatorOperation.Add -> number1.add(number2)
+            is CalculatorOperation.Subtract -> number1.subtract(number2)
+            is CalculatorOperation.Multiply -> number1.multiply(number2)
+            is CalculatorOperation.Divide -> if (number2.compareTo(BigDecimal.ZERO) != 0) number1.divide(
+                number2,
+                MathContext.DECIMAL64
+            ) else return
             null -> return
         }
         isCalculation = true
-        val resultString = result.toString()
-        val isInteger =
-            resultString.isNotBlank() && resultString.length >= 3 && resultString[resultString.length - 2] == '.' && resultString[resultString.length - 1] == '0'
+        val stringResult = if (result.compareTo(BigDecimal.ZERO) == 0) "0" else result.toString()
         state = state.copy(
-            number1 = if (isInteger) resultString.dropLast(2) else resultString,
+            number1 = stringResult,
             number2 = "",
             operation = null
         )
