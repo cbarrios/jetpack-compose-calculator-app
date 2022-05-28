@@ -54,7 +54,6 @@ class CalculatorViewModel : ViewModel() {
         if (state.operation == null && !state.number1.contains(".")) {
             state = if (state.number1.isBlank()) {
                 state.copy(number1 = "0.")
-
             } else {
                 state.copy(number1 = state.number1 + ".")
             }
