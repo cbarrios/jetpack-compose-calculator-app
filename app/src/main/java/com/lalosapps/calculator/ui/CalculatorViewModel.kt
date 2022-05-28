@@ -51,12 +51,20 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun enterDecimal() {
-        if (state.operation == null && !state.number1.contains(".") && state.number1.isNotBlank()) {
-            state = state.copy(number1 = state.number1 + ".")
-            return
+        if (state.operation == null && !state.number1.contains(".")) {
+            state = if (state.number1.isBlank()) {
+                state.copy(number1 = "0.")
+
+            } else {
+                state.copy(number1 = state.number1 + ".")
+            }
         }
-        if (!state.number2.contains(".") && state.number2.isNotBlank()) {
-            state = state.copy(number2 = state.number2 + ".")
+        if (state.operation != null && !state.number2.contains(".")) {
+            state = if (state.number2.isBlank()) {
+                state.copy(number2 = "0.")
+            } else {
+                state.copy(number2 = state.number2 + ".")
+            }
         }
     }
 
